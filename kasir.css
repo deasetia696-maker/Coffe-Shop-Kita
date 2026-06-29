@@ -1,0 +1,190 @@
+.kasir-container {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+  background: linear-gradient(135deg,#fdf3e7,#fff);
+}
+
+/* Menu wrapper */
+.kasir-menu-wrapper {
+  flex: 2;
+}
+
+.kasir-menu-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #6f4e37;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  background: #fff;
+  border: 2px solid #6f4e37;
+  color: #6f4e37;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active, .tab-btn:hover {
+  background: #6f4e37;
+  color: #fff;
+}
+
+/* Grid menu */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+/* Card menu */
+.card {
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+  text-align: center;
+  padding: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 280px;
+}
+
+/* Warna berbeda tiap menu */
+.card.espresso { background: linear-gradient(135deg,#ffe0b2,#fff3e0); }
+.card.latte { background: linear-gradient(135deg,#fff9c4,#f0f4c3); }
+.card.croissant { background: linear-gradient(135deg,#ffccbc,#fbe9e7); }
+.card.frenchfries { background: linear-gradient(135deg,#fff59d,#fffde7); }
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
+
+/* Foto menu */
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Judul & harga */
+.card h3 {
+  font-size: 15px;
+  margin: 8px 0 4px;
+  color: #3e2723;
+}
+
+.card p {
+  font-size: 13px;
+  font-weight: bold;
+  color: #6f4e37;
+  margin: 0 0 8px;
+}
+
+/* Tombol */
+.card button {
+  padding: 6px 12px;
+  font-size: 13px;
+  background: #6f4e37;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.card button:hover {
+  background: #4e342e;
+  transform: scale(1.05);
+}
+
+/* Struk pesanan */
+.order-container {
+  flex: 1;
+  background: rgba(255,255,255,0.8);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+.order-container h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #6f4e37;
+}
+
+.order-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+  padding: 10px;
+  background: #fff3e0;
+  border-radius: 8px;
+}
+
+.remove-btn {
+  background: #ff5252;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8em;
+  transition: background 0.3s;
+}
+
+.remove-btn:hover {
+  background: #e53935;
+}
+
+/* Total */
+.total-wrapper {
+  margin-top: 15px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.grand-total {
+  font-weight: bold;
+  color: #6f4e37;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #6f4e37;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+.checkout-btn:hover {
+  background: #4e342e;
+}
