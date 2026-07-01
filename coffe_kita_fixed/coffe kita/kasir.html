@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Kasir - Coffee Shop Kita</title>
+  <style>
+    /* --- FONTS & GLOBAL RESET --- */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: #f7f1eb; /* Warm Beige */
+      color: #433422;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* --- HEADER SECTION --- */
+    header {
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #2d1f10;
+      margin-bottom: 6px;
+    }
+
+    .btn-logout {
+      text-decoration: none;
+      color: #c0392b;
+      font-size: 13px;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .btn-logout:hover {
+      color: #e74c3c;
+    }
+
+    /* --- CONTAINER UTAMA KASIR --- */
+    .kasir-container {
+      width: 100%;
+      max-width: 600px;
+      background: #ebdccb; /* Soft Latte */
+      padding: 30px 24px;
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(67, 52, 34, 0.15);
+      border: 1px solid #dfcdb9;
+    }
+
+    /* --- AREA FILTER DROPDOWN MEJA --- */
+    .info-meja-kasir {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f4eae1;
+      padding: 14px 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #e3d2c1;
+    }
+
+    /* --- TABEL MINIMALIS --- */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      background: #faf4ee;
+      border-radius: 16px;
+      border: 1px solid #e3d2c1;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #4a3319;
+      color: #ffffff;
+      padding: 12px 16px;
+      font-weight: 700;
+    }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #ebdccb;
+      color: #433422;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- SEKSI FORM PEMBAYARAN --- */
+    .kasir-pay-section {
+      margin-top: 20px;
+      border-top: 2px dashed #cfbda8;
+      padding-top: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: #4a3319;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 2px solid #ebdccb;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      background: #faf4ee;
+      color: #433422;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: #4a3319;
+    }
+
+    .btn-submit-transaksi {
+      width: 100%;
+      background: #4a3319;
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(74, 51, 25, 0.2);
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-submit-transaksi:hover {
+      background: #332210;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>☕ Panel Kasir Utama</h2>
+    <a href="index.html" class="btn-logout">Keluar Sistem (Logout) →</a>
+  </header>
+
+  <div class="kasir-container">
+    
+    <div class="info-meja-kasir">
+      <span style="font-weight: 700; color: #4a3319; font-size: 15px;">Pilih Meja Pelanggan:</span>
+      <select id="pilihMejaKasir" onchange="tampilkanKasir()" style="font-weight: 700; color: #ffffff; background: #4a3319; padding: 8px 16px; border-radius: 12px; font-size: 14px; border: none; outline: none; cursor: pointer;">
+        <option value="" style="background: white; color: #333;">-- Pilih Meja --</option>
+      </select>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Menu Item</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="tabelKasirItems">
+          <tr>
+            <td colspan="3" style="text-align:center; color:#999; padding: 20px;">Silakan pilih nomor meja terlebih dahulu.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kasir-pay-section">
+      
+      <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 18px; color: #2d1f10; margin-bottom: 20px;">
+        <span>Total Tagihan:</span>
+        <span id="kasirTotal" style="font-size: 22px; color: #4a3319;">Rp 0</span>
+      </div>
+
+      <div class="form-group">
+        <label for="metodeBayar">Metode Pembayaran:</label>
+        <select id="metodeBayar" onchange="pilihMetodePembayaran()" class="form-control">
+          <option value="cash">Cash / Tunai</option>
+          <option value="qris">QRIS (Otomatis)</option>
+        </select>
+      </div>
+
+      <div id="areaCash">
+        <div class="form-group">
+          <label for="uangBayar">Uang Dibayar (Tunai):</label>
+          <input type="number" id="uangBayar" placeholder="Masukkan nominal uang tunai..." oninput="hitungKembalianKasir()" class="form-control">
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; font-weight: 600; margin: 18px 0; font-size: 15px; color: #634d35;">
+          <span>Kembalian Uang:</span>
+          <span id="kasirKembalian" style="font-weight: 700; font-size: 18px; color: #27ae60;">Rp 0</span>
+        </div>
+      </div>
+
+      <div id="areaQris" style="display: none; text-align: center; margin-bottom: 20px; padding: 20px; background: #ffffff; border-radius: 16px; border: 1px solid #dfcdb9;">
+        <p style="font-size: 13px; font-weight: 600; color: #8c6a42; margin-bottom: 12px;">Silakan Scan QRIS di Bawah Ini:</p>
+        <img id="gambarQris" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=CoffeeShop" alt="QRIS Code" style="width: 160px; height: 160px; border: 4px solid #4a3319; border-radius: 12px; padding: 4px;">
+        <p style="font-size: 11px; color: #e74c3c; font-weight: 700; margin-top: 10px; letter-spacing: 0.5px;">*KODE QR MERUJUK OTOMATIS KE NOMINAL TAGIHAN</p>
+      </div>
+
+      <button class="btn-submit-transaksi" onclick="prosesSelesaiTransaksi()">Selesaikan Transaksi & Cetak Nota</button>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
