@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keranjang Belanja - Coffee Shop Kita</title>
+  <style>
+    /* --- FONTS & GLOBAL RESET --- */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: #f7f1eb; /* Warna latar belakang krem hangat (Warm Beige) */
+      color: #433422;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    /* --- HEADER SECTION --- */
+    header {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #2d1f10;
+      margin-bottom: 6px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #8c6a42;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #2d1f10;
+    }
+
+    /* --- MAIN CONTAINER (KARTU LATTE) --- */
+    .order-container {
+      width: 100%;
+      max-width: 480px;
+      background: #ebdccb; /* Warna cokelat susu / soft latte hangat */
+      padding: 30px 24px;
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(67, 52, 34, 0.1); /* Bayangan lembut bertema cokelat */
+      border: 1px solid #dfcdb9;
+    }
+
+    /* --- DAFTAR ITEM PESANAN --- */
+    #orderList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #orderList li {
+      background: #f4eae1; /* Kontras lebih terang di dalam kartu */
+      margin-bottom: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e3d2c1;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #orderList li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 52, 34, 0.05);
+    }
+
+    /* Struktur teks menu */
+    #orderList li span {
+      font-size: 15px;
+      font-weight: 700;
+      color: #433422;
+    }
+
+    #orderList li strong {
+      display: block;
+      font-size: 13px;
+      color: #8c6a42;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* --- TOMBOL HAPUS MINIMALIS --- */
+    .remove-btn {
+      background: #fcebeb; /* Merah pastel transparan */
+      color: #e74c3c;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #e74c3c;
+      color: #ffffff;
+    }
+
+    /* --- TOTAL HARGA BAR --- */
+    .total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: #634d35;
+      margin: 24px 0;
+      padding-top: 20px;
+      border-top: 2px dashed #cfbda8;
+    }
+
+    #totalPrice {
+      font-size: 22px;
+      font-weight: 700;
+      color: #2d1f10;
+    }
+
+    /* --- TOMBOL CHECKOUT (ESPRESSO LOOK) --- */
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      background: #4a3319; /* Cokelat tua espresso premium */
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 16px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+      box-shadow: 0 6px 20px rgba(74, 51, 25, 0.2);
+    }
+
+    .btn-checkout:hover {
+      background: #332210;
+      transform: translateY(-1px);
+    }
+
+    /* --- TOMBOL QRIS --- */
+    .btn-qris {
+      display: block;
+      width: 100%;
+      background: #ffffff;
+      color: #4a3319;
+      border: 2px solid #4a3319;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 16px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+      margin-top: 12px;
+    }
+
+    .btn-qris:hover {
+      background: #f4eae1;
+    }
+
+    /* --- MODAL QRIS PEMBAYARAN --- */
+    .qris-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(43, 33, 24, 0.55);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .qris-box {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 340px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .qris-box h3 {
+      color: #2d1f10;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .qris-box p {
+      font-size: 13px;
+      color: #8c6a42;
+      margin-bottom: 4px;
+    }
+
+    #qrisTotal {
+      font-size: 26px;
+      font-weight: 800;
+      color: #4a3319;
+      margin: 6px 0 16px 0;
+    }
+
+    #qrisImage {
+      width: 200px;
+      height: 200px;
+      border: 4px solid #4a3319;
+      border-radius: 14px;
+      padding: 6px;
+      background: #fff;
+    }
+
+    .qris-note {
+      font-size: 12px;
+      color: #634d35;
+      margin: 14px 0 18px 0;
+    }
+
+    .btn-confirm-qris {
+      width: 100%;
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn-confirm-qris:hover {
+      background: #219150;
+    }
+
+    .btn-cancel-qris {
+      width: 100%;
+      background: none;
+      color: #e74c3c;
+      border: none;
+      padding: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>🛒 Keranjang Belanja</h2>
+    <nav><a href="menu.html">← Kembali ke Menu</a></nav>
+  </header>
+
+  <div class="order-container">
+    <ul id="orderList"></ul>
+    
+    <div class="total">
+      <span>Total Harga:</span>
+      <span id="totalPrice">Rp 0</span>
+    </div>
+
+    <button class="btn-checkout" onclick="payOrderCash()">Kirim Pesanan Ke Kasir (Bayar Tunai)</button>
+    <button class="btn-qris" onclick="bukaQris()">💳 Bayar Sekarang via QRIS</button>
+  </div>
+
+<!-- Tambahan: tampilkan nomor meja -->
+<div class="cart-meja">
+  <span>Nomor Meja:</span>
+  <span id="cartMeja">-</span>
+</div>
+
+<!-- Popup Pembayaran QRIS -->
+<div class="qris-modal" id="qrisModal">
+  <div class="qris-box">
+    <h3>💳 Pembayaran QRIS</h3>
+    <p>Meja: <strong id="qrisMeja">-</strong></p>
+    <p>Total yang harus dibayar:</p>
+    <div id="qrisTotal">Rp 0</div>
+    <img id="qrisImage" src="" alt="QRIS Code">
+    <p class="qris-note">Scan kode QR di atas menggunakan aplikasi e-wallet / mobile banking kamu</p>
+    <button class="btn-confirm-qris" onclick="konfirmasiBayarQris()">✅ Saya Sudah Bayar</button>
+    <button class="btn-cancel-qris" onclick="tutupQris()">Batal</button>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Coffee Shop Kita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="menu-page-wrapper">
+
+  <header class="main-header">
+    <div class="header-logo">☕ Coffee Shop Kita</div>
+    <nav>
+      <a href="#" class="cart-nav-btn" onclick="toggleCart()">
+        <span>Keranjang 🛒</span>
+        <span id="cartCount" class="badge">0</span>
+      </a>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <div class="overlay">
+      <h2>Nikmati Kopi & Hidangan</h2>
+      <p>Aroma dan cita rasa terbaik untuk menemani harimu</p>
+    </div>
+  </section>
+
+  <div class="tabs-container">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('drinks')">🍹 Minuman</button>
+      <button class="tab-btn" onclick="showTab('foods')">🍴 Makanan</button>
+    </div>
+  </div>
+
+  <section id="drinks" class="menu-section active">
+    <div class="menu-grid">
+      <div class="card">
+        <div class="img-container">
+          <img src="images/espresso.jpg" alt="Espresso">
+        </div>
+        <h3>Espresso</h3>
+        <p class="price">Rp 15.000</p>
+        <button class="btn-order" onclick="addToOrder('Espresso', 15000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/cappuccino.jpg" alt="Cappuccino">
+        </div>
+        <h3>Cappuccino</h3>
+        <p class="price">Rp 20.000</p>
+        <button class="btn-order" onclick="addToOrder('Cappuccino', 20000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/latte.jpg" alt="Latte">
+        </div>
+        <h3>Latte</h3>
+        <p class="price">Rp 22.000</p>
+        <button class="btn-order" onclick="addToOrder('Latte', 22000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/matchalatte.jpg" alt="Matcha Latte">
+        </div>
+        <h3>Matcha Latte</h3>
+        <p class="price">Rp 25.000</p>
+        <button class="btn-order" onclick="addToOrder('Matcha Latte', 25000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/strawberry milkshake.jpg" alt="strawberry milkshake">
+        </div>
+        <h3>Strawberry Milkshake</h3>
+        <p class="price">Rp 25.000</p>
+        <button class="btn-order" onclick="addToOrder('strawberry milkshake', 25000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/iced americano.jpg" alt="iced americano">
+        </div>
+        <h3>Iced Americano</h3>
+        <p class="price">Rp 15.000</p>
+        <button class="btn-order" onclick="addToOrder('iced americano', 15000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/iceddarkchocolate.jpg" alt="iceddarkchocolate">
+        </div>
+        <h3>Iced Dark Chocolate</h3>
+        <p class="price">Rp 25.000</p>
+        <button class="btn-order" onclick="addToOrder('iced dark chocolate', 25000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/butterschoth.jpg" alt="butterschoth">
+        </div>
+        <h3>Butterschotch</h3>
+        <p class="price">Rp 25.000</p>
+        <button class="btn-order" onclick="addToOrder('butterschoth', 25000)">Pesan</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="foods" class="menu-section">
+    <div class="menu-grid">
+      <div class="card">
+        <div class="img-container">
+          <img src="images/strawberrycheseecake.jpg" alt="Strawberry Cheesecake">
+        </div>
+        <h3>Strawberry Cheesecake</h3>
+        <p class="price">Rp 22.000</p>
+        <button class="btn-order" onclick="addToOrder('Strawberry Cheesecake', 22000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/croissant.jpg" alt="Croissant">
+        </div>
+        <h3>Croissant</h3>
+        <p class="price">Rp 18.000</p>
+        <button class="btn-order" onclick="addToOrder('Croissant', 18000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/mixplatter.jpg" alt="Mix Platter">
+        </div>
+        <h3>Mix Platter</h3>
+        <p class="price">Rp 20.000</p>
+        <button class="btn-order" onclick="addToOrder('Mix Platter', 20000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/frenchfries.jpg" alt="French Fries">
+        </div>
+        <h3>French Fries</h3>
+        <p class="price">Rp 15.000</p>
+        <button class="btn-order" onclick="addToOrder('French Fries', 15000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/craffle.jpg" alt="craffle">
+        </div>
+        <h3>Craffle</h3>
+        <p class="price">Rp 25.000</p>
+        <button class="btn-order" onclick="addToOrder('craffle', 25000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/pisang coklat.jpg" alt="pisang coklat">
+        </div>
+        <h3>Pisang Coklat</h3>
+        <p class="price">Rp 15.000</p>
+        <button class="btn-order" onclick="addToOrder('pisang coklat', 15000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/spagheti.jpg" alt="spagheti">
+        </div>
+        <h3>Spaghetti</h3>
+        <p class="price">Rp 30.000</p>
+        <button class="btn-order" onclick="addToOrder('spagheti', 30000)">Pesan</button>
+      </div>
+      <div class="card">
+        <div class="img-container">
+          <img src="images/chiken wings.jpg" alt="chiken wings">
+        </div>
+        <h3>Chicken Wings</h3>
+        <p class="price">Rp 28.000</p>
+        <button class="btn-order" onclick="addToOrder('chiken wings', 28000)">Pesan</button>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="cart-popup" id="cartPopup">
+    <h3>🛒 Keranjang Pesanan</h3>
+    <ul id="cartItems"></ul>
+    <div class="cart-total">
+      <span>Total Sementara</span>
+      <span id="cartTotal">Rp 0</span>
+    </div>
+    <button class="btn-view-order" onclick="goToOrder()">Lihat Detail & Checkout</button>
+  </div>
+<div class="meja-container" style="margin: 20px auto; max-width: 1100px; padding: 0 20px;">
+  <label for="nomorMeja" style="font-weight: 700; color: #4a3319; display: block; margin-bottom: 8px; font-size: 15px;">
+    Masukkan Nomor Meja Anda:
+  </label>
+  <input type="number" id="nomorMeja" placeholder="Contoh: 05" min="1" required
+         oninput="localStorage.setItem('nomorMejaGlobal', this.value)"
+         style="padding: 12px 16px; width: 100%; max-width: 200px; border: 2px solid #ebdccb; border-radius: 12px; font-size: 14px; outline: none; background-color: #faf4ee;">
+  <p id="infoMejaOtomatis" style="display:none; color:#2e7d32; font-size:13px; font-weight:700; margin-top:10px;">
+    ✅ Nomor meja terdeteksi otomatis dari QR Code — kamu tidak perlu mengisi manual.
+  </p>
+</div>
+  <footer>
+    <p>Setiap meja punya QR Code sendiri untuk akses menu otomatis.</p>
+  </footer>
+
+</div>
+  <script src="script.js"></script>
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.menu-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+      if(activeBtn) activeBtn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+COFFEE-KITA/
+├── index.html   ← login (user & kasir)
+├── menu.html    ← menu pelanggan
+├── order.html   ← pesanan pelanggan
+├── kasir.html   ← tampilan kasir
+├── script.js    ← semua fungsi (login, order, kasir)
+├── style.css    ← styling global
+└── images/      ← gambar menu
+    ├── espresso.jpg
+    ├── cappuccino.jpg
+    ├── latte.jpg
+    ├── matchallattr.jpg
+    ├── roti-bakar.jpg
+    └── croissant.jpg        (gambar kopi, logo, dll)
