@@ -45,6 +45,27 @@ function getNomorMejaAktif() {
   return localStorage.getItem("nomorMejaGlobal") || "";
 }
 
+// Deteksi nomor meja otomatis dari QR Code (URL berformat menu.html?meja=05)
+function initMejaDariQR() {
+  const params = new URLSearchParams(window.location.search);
+  const meja = params.get("meja");
+  const inputMeja = document.getElementById("nomorMeja");
+  const infoMeja = document.getElementById("infoMejaOtomatis");
+
+  if (meja && meja.trim() !== "") {
+    localStorage.setItem("nomorMejaGlobal", meja.trim());
+    if (inputMeja) {
+      inputMeja.value = meja.trim();
+      inputMeja.readOnly = true;
+      inputMeja.style.backgroundColor = "#e8f5e9";
+      inputMeja.style.borderColor = "#4caf50";
+      inputMeja.style.fontWeight = "700";
+      inputMeja.style.color = "#2e7d32";
+    }
+    if (infoMeja) infoMeja.style.display = "block";
+  }
+}
+
 function getOrders() {
   const noMeja = getNomorMejaAktif();
   if (!noMeja) return []; 
@@ -157,9 +178,11 @@ function goToOrder() {
 function displayUserOrderPage() {
   const orderList = document.getElementById("orderList");
   const totalPrice = document.getElementById("totalPrice");
+  const cartMeja = document.getElementById("cartMeja");
   if (!orderList || !totalPrice) return;
 
   const orders = getOrders();
+  const noMeja = getNomorMejaAktif();
   orderList.innerHTML = "";
   let total = 0;
   
@@ -175,9 +198,14 @@ function displayUserOrderPage() {
     });
   }
   totalPrice.textContent = formatRupiah(total);
+
+  if (cartMeja) {
+    cartMeja.textContent = noMeja ? noMeja : "-";
+  }
 }
 
-function payOrder() {
+// Bayar tunai -> pesanan dikunci & dikirim ke kasir untuk dibayar cash
+function payOrderCash() {
   const orders = getOrders();
   const nomorMeja = getNomorMejaAktif();
 
@@ -185,10 +213,56 @@ function payOrder() {
     alert("Keranjang belanja kamu masih kosong!");
     return;
   }
+  if (!nomorMeja) {
+    alert("Nomor meja belum terdeteksi/terisi!");
+    return;
+  }
 
-  alert(`Pesanan Meja ${nomorMeja} sudah dikunci dan dikirim ke kasir!`);
+  alert(`Pesanan Meja ${nomorMeja} sudah dikunci dan dikirim ke kasir!\nSilakan bayar tunai di kasir.`);
   localStorage.removeItem("nomorMejaGlobal"); 
   window.location.href = "menu.html"; 
+}
+
+// Bayar QRIS -> tampilkan popup QR + total tagihan
+function bukaQris() {
+  const orders = getOrders();
+  const nomorMeja = getNomorMejaAktif();
+
+  if (orders.length === 0) {
+    alert("Keranjang belanja kamu masih kosong!");
+    return;
+  }
+  if (!nomorMeja) {
+    alert("Nomor meja belum terdeteksi/terisi!");
+    return;
+  }
+
+  const total = orders.reduce((sum, item) => sum + item.price, 0);
+
+  const qrisMeja = document.getElementById("qrisMeja");
+  const qrisTotal = document.getElementById("qrisTotal");
+  const qrisImage = document.getElementById("qrisImage");
+  const qrisModal = document.getElementById("qrisModal");
+
+  if (qrisMeja) qrisMeja.textContent = nomorMeja;
+  if (qrisTotal) qrisTotal.textContent = formatRupiah(total);
+  if (qrisImage) {
+    qrisImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=CoffeeShopKita-Meja${nomorMeja}-Total${total}`;
+  }
+  if (qrisModal) qrisModal.style.display = "flex";
+}
+
+function tutupQris() {
+  const qrisModal = document.getElementById("qrisModal");
+  if (qrisModal) qrisModal.style.display = "none";
+}
+
+function konfirmasiBayarQris() {
+  const nomorMeja = getNomorMejaAktif();
+  alert(`Pembayaran QRIS untuk Meja ${nomorMeja} berhasil dikonfirmasi!\nPesanan sudah dikirim ke kasir.`);
+  tutupQris();
+  localStorage.removeItem("nomorMejaGlobal");
+  window.location.href = "menu.html";
 }
 
 // ==========================================
@@ -394,38 +468,9 @@ function renderSemuaHalaman() {
   tampilkanKasir();
   pilihMetodePembayaran();
 }
-function displayUserOrderPage() {
-  const orderList = document.getElementById("orderList");
-  const totalPrice = document.getElementById("totalPrice");
-  const cartMeja = document.getElementById("cartMeja"); // ambil elemen nomor meja
-  if (!orderList || !totalPrice) return;
-
-  const orders = getOrders();
-  const noMeja = getNomorMejaAktif(); // ambil nomor meja aktif
-  orderList.innerHTML = "";
-  let total = 0;
-  
-  if (orders.length === 0) {
-    orderList.innerHTML = `<li style="text-align:center; color:#999; padding: 20px;">Belum ada pesanan yang dipilih.</li>`;
-  } else {
-    orders.forEach((order, index) => {
-      const li = document.createElement("li");
-      li.innerHTML = `<span>${order.name} <strong>${formatRupiah(order.price)}</strong></span> 
-        <button class="remove-btn" onclick="removeOrder(${index})">Hapus</button>`;
-      orderList.appendChild(li);
-      total += order.price;
-    });
-  }
-  totalPrice.textContent = formatRupiah(total);
-
-  // Tambahan: isi nomor meja di UI
-  if (cartMeja) {
-    cartMeja.textContent = noMeja ? noMeja : "-";
-  }
-}
-
 
 window.addEventListener("DOMContentLoaded", () => {
+  initMejaDariQR();
   renderSemuaHalaman();
 });
 

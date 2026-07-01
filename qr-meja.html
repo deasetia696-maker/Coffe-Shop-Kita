@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cetak QR Meja - Coffee Shop Kita</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: #f7f1eb;
+      color: #433422;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    header h2 {
+      font-size: 26px;
+      color: #2d1f10;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #8c6a42;
+    }
+
+    .panel-kontrol {
+      background: #ebdccb;
+      border: 1px solid #dfcdb9;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 13px;
+      color: #4a3319;
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 2px solid #dfcdb9;
+      font-size: 14px;
+      background: #faf4ee;
+      outline: none;
+    }
+
+    .btn-generate {
+      background: #4a3319;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-generate:hover {
+      background: #332210;
+    }
+
+    .btn-print {
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-print:hover {
+      background: #219150;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .qr-card {
+      background: #fff;
+      border: 2px dashed #cfbda8;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .qr-card h3 {
+      color: #2d1f10;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .qr-card img {
+      width: 180px;
+      height: 180px;
+    }
+
+    .qr-card .link-text {
+      font-size: 10px;
+      color: #999;
+      margin-top: 10px;
+      word-break: break-all;
+    }
+
+    .qr-card .brand {
+      font-size: 12px;
+      font-weight: 700;
+      color: #8c6a42;
+      margin-top: 8px;
+    }
+
+    @media print {
+      .panel-kontrol, header p, .no-print { display: none !important; }
+      body { padding: 0; background: #fff; }
+      .qr-card { break-inside: avoid; page-break-inside: avoid; border: 2px solid #333; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h2>🖨️ Cetak QR Code Meja</h2>
+      <p>Generate QR untuk ditempel di tiap meja — pelanggan tinggal scan, nomor meja otomatis terisi di menu.</p>
+    </header>
+
+    <div class="panel-kontrol no-print">
+      <div class="form-group">
+        <label for="jumlahMeja">Jumlah Meja</label>
+        <input type="number" id="jumlahMeja" value="10" min="1" max="50">
+      </div>
+      <div class="form-group">
+        <label for="baseUrl">Alamat Website (otomatis terisi)</label>
+        <input type="text" id="baseUrl" value="">
+      </div>
+      <button class="btn-generate" onclick="generateSemuaQR()">🔄 Generate QR</button>
+      <button class="btn-print" onclick="window.print()">🖨️ Print / Simpan PDF</button>
+    </div>
+
+    <div class="qr-grid" id="qrGrid"></div>
+  </div>
+
+  <script>
+    function pad(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    function generateSemuaQR() {
+      const jumlah = parseInt(document.getElementById('jumlahMeja').value) || 1;
+      const baseUrl = document.getElementById('baseUrl').value.replace(/\/$/, '');
+      const grid = document.getElementById('qrGrid');
+      grid.innerHTML = '';
+
+      for (let i = 1; i <= jumlah; i++) {
+        const nomor = pad(i);
+        const link = `${baseUrl}/menu.html?meja=${nomor}`;
+        const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(link)}`;
+
+        const card = document.createElement('div');
+        card.className = 'qr-card';
+        card.innerHTML = `
+          <h3>☕ Meja ${nomor}</h3>
+          <img src="${qrImgUrl}" alt="QR Meja ${nomor}">
+          <div class="brand">Coffee Shop Kita</div>
+          <div class="link-text">${link}</div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Otomatis isi alamat website berdasarkan lokasi file ini sekarang
+      const currentPath = window.location.href.replace(/qr-meja\.html.*$/, '');
+      document.getElementById('baseUrl').value = currentPath.replace(/\/$/, '');
+      generateSemuaQR();
+    });
+  </script>
+
+</body>
+</html>

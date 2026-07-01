@@ -192,13 +192,15 @@
   <input type="number" id="nomorMeja" placeholder="Contoh: 05" min="1" required
          oninput="localStorage.setItem('nomorMejaGlobal', this.value)"
          style="padding: 12px 16px; width: 100%; max-width: 200px; border: 2px solid #ebdccb; border-radius: 12px; font-size: 14px; outline: none; background-color: #faf4ee;">
+  <p id="infoMejaOtomatis" style="display:none; color:#2e7d32; font-size:13px; font-weight:700; margin-top:10px;">
+    ✅ Nomor meja terdeteksi otomatis dari QR Code — kamu tidak perlu mengisi manual.
+  </p>
 </div>
   <footer>
-    <p>Scan QR Code di meja untuk mengakses e-menu</p>
-    <div id="qrcode"></div>
+    <p>Setiap meja punya QR Code sendiri untuk akses menu otomatis.</p>
   </footer>
 
-</div> <script src="qrcode.min.js"></script>
+</div>
   <script src="script.js"></script>
   <script>
     function showTab(tabId) {
