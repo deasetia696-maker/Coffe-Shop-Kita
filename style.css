@@ -394,7 +394,7 @@ body.login-page::before {
    ========================================================================== */
 @media (max-width: 600px) {
   /* Navbar jadi vertikal */
-  .main-header {
+  .menu-page-wrapper .main-header {
     flex-direction: column;
     gap: 10px;
     text-align: center;
@@ -402,35 +402,42 @@ body.login-page::before {
   }
 
   /* Banner teks lebih kecil */
-  .banner h2 {
+  .menu-page-wrapper .banner {
+    padding: 30px 16px;
+  }
+  .menu-page-wrapper .banner h2 {
     font-size: 22px;
   }
-  .banner p {
+  .menu-page-wrapper .banner p {
     font-size: 14px;
   }
 
-  /* Grid menu jadi 1 kolom penuh */
-  .menu-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  /* Grid menu jadi 2 kolom biar kartu nggak raksasa */
+  .menu-page-wrapper .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     padding: 10px;
     max-width: 100%;   /* biar pas di layar HP */
   }
 
   /* Card lebih ramping */
-  .card {
-    padding: 12px;
+  .menu-page-wrapper .card {
+    padding: 10px;
     border-radius: 12px;
   }
-  .card h3 {
-    font-size: 14px;
-  }
-  .card .price {
-    font-size: 14px;
-  }
-  .card button {
+  .menu-page-wrapper .card h3 {
     font-size: 13px;
-    padding: 10px;
+    margin: 6px 0 4px 0;
+  }
+  .menu-page-wrapper .card .price,
+  .menu-page-wrapper .card p {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .menu-page-wrapper .card button,
+  .menu-page-wrapper .btn-order {
+    font-size: 12px;
+    padding: 8px 0;
   }
 
   /* Input nomor meja full width */
